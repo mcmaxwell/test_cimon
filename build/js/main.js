@@ -1,1 +1,1 @@
-"use strict";
+"use strict";var toogleMenu=document.querySelector(".toggle-menu");toogleMenu.onclick=function(e){toogleMenu.classList.toggle("active"),document.querySelector(".menu").classList.toggle("active"),e.preventDefault()};

@@ -14,8 +14,6 @@ const gulp = require('gulp'),
       rimraf = require('rimraf'),
       sourcemaps = require('gulp-sourcemaps'),
       watch = require('gulp-watch'),
-      svgSprite = require('gulp-svg-sprite'),
-    	svgmin = require('gulp-svgmin'),
     	cheerio = require('gulp-cheerio'),
       babel = require('gulp-babel');
 
@@ -26,8 +24,6 @@ const path = {
         css: 'build/css/',
         sass: 'app/css/',
         img: 'build/img/',
-        fonts: 'build/fonts/',
-        sprites: 'app/img/',
     },
     app: {
         html: 'app/*.html',
@@ -35,8 +31,6 @@ const path = {
         jshint: 'app/js/*.js',
         sass: 'app/sass/*.scss',
         img: 'app/img/**/*.*',
-        fonts: 'app/fonts/**/*.*',
-        sprites: 'app/sass/sprites/*.svg',
     },
     watch: {
         html: 'app/*.html',
@@ -44,8 +38,6 @@ const path = {
         css: 'app/css/**/*.*',
         sass: 'app/sass/*.scss',
         img: 'app/img/**/*.*',
-        fonts: 'app/fonts/**/*.*',
-        sprites: 'app/sass/sprites/*.svg'
     },
     clean: './build',
     rootDir: './build'
@@ -56,38 +48,6 @@ gulp.task('connect', () => {
     root: [path.rootDir],
     livereload: true
   });
-});
-
-// sprites svg
-gulp.task('sprites:build', () => {
-    gulp.src(path.app.sprites)
-    .pipe(svgmin({
-      js2svg: {
-        pretty: true
-      }
-    }))
-    .pipe(cheerio({
-      run: function ($) {
-        $('[fill]').removeAttr('fill');
-				$('[stroke]').removeAttr('stroke');
-				$('[style]').removeAttr('style');
-      },
-      parserOptions: { xmlMode: true }
-    }))
-    .pipe(svgSprite({
-			mode: {
-				css : {
-					sprite: '../img/sprite.svg',
-          prefix : ".icon-%s",
-					render: {
-						scss: {
-							dest: '../sass/_sprite.scss'
-						}
-					}
-				}
-			}
-		}))
-    .pipe(gulp.dest('app/'));
 });
 
 //html
@@ -116,12 +76,6 @@ gulp.task('sass:build', () => {
     }))
     .pipe(gulp.dest(path.build.sass))
     .pipe(connect.reload());
-});
-
-//fonts
-gulp.task('fonts:build', () => {
-    gulp.src(path.app.fonts)
-    .pipe(gulp.dest(path.build.fonts));
 });
 
 //jshint
@@ -154,13 +108,7 @@ gulp.task('image:build', () => {
         .pipe(gulp.dest(path.build.img))
         .pipe(connect.reload())
 });
-//other files
-gulp.task('other', () => {
-     gulp.src(['app/css/ajax-loader.gif', 'app/css/fonts/'])
-        .pipe(gulp.dest('build/css'));
-     gulp.src('app/css/fonts/*.*')
-        .pipe(gulp.dest('build/css/fonts'));
-});
+
 //clean
 gulp.task('clean', (cb) => {
     rimraf(path.clean, cb);
@@ -170,9 +118,6 @@ gulp.task('clean', (cb) => {
 gulp.task('watch', () => {
     watch([path.watch.html, 'app/include/*.html'], (event, cb) => {
         gulp.start('html:build');
-    });
-    watch([path.watch.sprites], (event, cb) => {
-        gulp.start('sprites:build');
     });
     watch([path.watch.css], (event, cb) => {
         gulp.start('html:build');
@@ -187,10 +132,7 @@ gulp.task('watch', () => {
     watch([path.watch.img], (event, cb) => {
         gulp.start('image:build');
     });
-    watch([path.watch.fonts], (event, cb) => {
-        gulp.start('fonts:build');
-    });
 });
 
 // default
-gulp.task('default', ['connect', 'other', 'sprites:build', 'html:build', 'sass:build', 'fonts:build', 'js:build', 'image:build', 'jshint:build', 'watch']);
+gulp.task('default', ['connect', 'html:build', 'sass:build', 'js:build', 'image:build', 'jshint:build', 'watch']);

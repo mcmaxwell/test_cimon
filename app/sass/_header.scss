@@ -1,19 +1,107 @@
 .header {
-  height: 40px;
-  background-color: #445059;
+  height: $header-height;
+  background-color: $header-bg;
+  position: relative;
+  z-index: 20;
+  color: $header-link-color;
+  a {
+    color: $header-link-color;
+  }
   .column {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 40px;
+    height: $header-height;
   }
-  ul {
+  .main-menu-list {
     list-style: none;
     display: flex;
     margin: 0;
-    color: white;
     li {
-      margin: 0 10px;
+      text-shadow: $defaut-text-shadow;
+      line-height: 1.4;
+      &:last-child .main-menu-link {
+        @include breakpoint(medium) {
+          border-left: 1px solid #707a81;
+        }
+      }
+      &:nth-last-child(2) .main-menu-link {
+        @include breakpoint(medium) {
+          border-right: 1px solid #323c45;
+        }
+      }
+    }
+    .main-menu-link {
+      display: flex;
+      align-items: baseline;
+      padding: 0 10px;
+      transition: opacity $transition-default-time;
+      font-size: 0;
+      color: transparent;
+      @include breakpoint(medium) {
+        font-size: $font-size-base;;
+        color: $header-link-color;
+      }
+      &:hover {
+        opacity: 0.8;
+      }
+      img {
+        margin-right: 10px;
+        transform: scale(1.8);
+      }
+    }
+  }
+}
+.toggle-menu {
+  position: relative;
+  display: inline-block;
+  z-index: 600;
+  margin-top: 0;
+  transition: all $transition-default-time;
+  font-size: 0;
+  color: transparent;
+  padding: 8px;
+  @include breakpoint(medium) {
+    font-size: $font-size-base;;
+    color: $header-link-color;
+    padding: 3px 0 0 40px;
+  }
+  @include breakpoint(large) {
+    margin-top: -100%;
+  }
+  &::before,
+  &::after {
+    cursor: pointer;
+    border-radius: 1px;
+    left: 0;
+    height: 4px;
+    width: 27px;
+    background: $header-link-color;
+    position: absolute;
+    display: block;
+    content: "";
+    transition: all $transition-default-time ease-in-out;
+  }
+  &::before {
+    top: 3px;
+  }
+  &::after {
+    top: 10px;
+  }
+  &:hover::before,
+  &:hover::after {
+    opacity: 0.8;
+  }
+  &.active {
+    &::before,
+    &::after {
+      top: 5px;
+    }
+    &::before {
+      transform: rotate(45deg);
+    }
+    &::after {
+      transform: rotate(-45deg);
     }
   }
 }

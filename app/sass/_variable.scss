@@ -1,0 +1,30 @@
+$brand-color:           #c1e3ff;
+
+$content-bg:            #f3f3f3;
+$header-bg:             #566674;
+$text-color:            #333;
+$title-color:           #666;
+
+$defaut-text-shadow:    0.7px 0.7px 1px rgba(0, 0, 0, 0.25);
+
+$link-color:            $brand-color;
+$link-hover-color:      darken($link-color, 15%);
+$header-link-color:     #fff;
+
+$font-family-base:      "Arial", sans-serif;
+
+$font-size-base:         12px;
+
+$font-size-h1:          floor(($font-size-base * 1.7));
+
+$main-menu-default-link-color:                $header-link-color;
+$main-menu-default-link-hover-color:          darken($content-bg, 10%);
+
+$sidebar-menu-link-color:                     $link-color;
+$sidebar-menu-link-hover-color:               $header-link-color;
+
+$header-height:           40px;
+
+$border-radius-default:   7px;
+
+$transition-default-time: 0.5s;

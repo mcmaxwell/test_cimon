@@ -118,6 +118,7 @@ h1 {
   width: 100%;
   background: $header-bg;
   border-radius: 0;
+  font-weight: 700;
   transition: all $transition-default-time;
   left: 0;
   @include breakpoint(large) {
